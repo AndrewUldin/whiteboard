@@ -1,24 +1,33 @@
 'use strict';
 
-var config = require('./config');
-var log = require('./lib/logger');
+const path = require('path');
+const config = require('./config');
+const log = require('./lib/logger');
 
-var app = require('express')();
-var server = require('http').Server(app);
-var io = require('socket.io')(server);
+const environment = process.env.NODE_ENV || 'development';
 
-var port = config.server.port;
+const express = require('express');
+const app = express();
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
+
+const port = config.server.port;
 server.listen(port, () => {
-        log.info('Listening on port', port);
-    });
-
-app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/static/index.html');
+    log.info('Listening on port', port);
 });
 
-io.on('connection', function (socket) {
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', function (data) {
-    console.log(data);
-  });
+app.set('env', environment);
+
+app.use(express.static(path.join(__dirname, 'static')));
+app.use(require('morgan')('short'));
+
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/static/index.html');
+});
+
+io.on('connection', socket => {
+    socket.emit('news', { hello: 'world' });
+    socket.on('my other event', data => {
+        console.log(data);
+    });
 });
