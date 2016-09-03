@@ -5,6 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
+    "static": "browserify -t [ babelify ] clientside/src/app.js -o clientside/build/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "engines": {
@@ -21,10 +22,18 @@
   },
   "homepage": "https://github.com/AndrewUldin/whiteboard#readme",
   "dependencies": {
+    "babel-preset-es2015": "^6.14.0",
+    "babel-preset-react": "^6.11.1",
+    "babelify": "^7.3.0",
     "express": "^4.14.0",
     "lodash": "^4.15.0",
     "loggin": "^3.0.1",
     "morgan": "^1.7.0",
+    "react": "^15.3.1",
+    "react-dom": "^15.3.1",
     "socket.io": "^1.4.8"
+  },
+  "devDependencies": {
+    "browserify": "^13.1.0"
   }
 }
