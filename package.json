@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "static": "browserify -t [ babelify ] clientside/src/app.js -o clientside/build/app.js",
+    "static": "gulp default",
+    "build": "gulp build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "engines": {
@@ -34,6 +35,24 @@
     "socket.io": "^1.4.8"
   },
   "devDependencies": {
-    "browserify": "^13.1.0"
+    "autoprefixer": "^6.4.1",
+    "babelify": "^7.3.0",
+    "browserify": "^13.1.0",
+    "cssnano": "^3.7.4",
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-htmlmin": "^2.0.0",
+    "gulp-postcss": "^6.1.1",
+    "gulp-sass": "^2.3.2",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-svgmin": "^1.2.2",
+    "gulp-uglify": "^2.0.0",
+    "gulp-util": "^3.0.7",
+    "lodash.assign": "^4.2.0",
+    "reactify": "^1.1.1",
+    "run-sequence": "^1.2.2",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.7.0"
   }
 }

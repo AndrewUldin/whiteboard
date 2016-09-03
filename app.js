@@ -19,10 +19,10 @@ server.listen(port, () => {
 app.set('env', environment);
 
 app.use(require('morgan')('short'));
-app.use(express.static(path.join(__dirname, 'clientside')));
+app.use(express.static(path.join(__dirname, 'clientside/app')));
 
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/clientside/index.html');
+    res.sendFile(__dirname + '/clientside/app/index.html');
 });
 
 io.on('connection', socket => {
