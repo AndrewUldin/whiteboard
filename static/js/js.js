@@ -11,6 +11,11 @@
         App.ctx.lineWidth = 2;
         App.ctx.lineCap = "round";
 
+        App.socket = io.connect('http://127.0.0.1:9999');
+        App.socket.on('serverDraw', function(data) {
+            App.draw(data.coords, data.type);
+        });
+
         App.draw = function(coords, type) {
             switch (type) {
                 case "start":
@@ -27,6 +32,14 @@
             }
         };
 
+        App.drawHanlder = function(coords, type) {
+            App.draw(coords, type);
+            App.socket.emit('clientDraw', {
+                coords: coords, 
+                type: type
+            });
+        }
+
         App.calcRelCoords = function(e) {
             return {
                 x: e.clientX - e.currentTarget.offsetLeft,
@@ -36,19 +49,19 @@
 
         App.inHandler = function(e) {
             App.nowPressed = true;
-            App.draw(App.calcRelCoords(e), 'start');
+            App.drawHanlder(App.calcRelCoords(e), 'start');
         }
 
         App.outHandler = function(e) {
             if (App.nowPressed) {
                 App.nowPressed = false;
-                App.draw(App.calcRelCoords(e), 'stop');
+                App.drawHanlder(App.calcRelCoords(e), 'stop');
             }
         }
 
         App.moveHandler = function(e) {
             if (App.nowPressed) {
-                App.draw(App.calcRelCoords(e), 'move');
+                App.drawHanlder(App.calcRelCoords(e), 'move');
             }
         }
 

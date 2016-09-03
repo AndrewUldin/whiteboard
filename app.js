@@ -18,16 +18,15 @@ server.listen(port, () => {
 
 app.set('env', environment);
 
-app.use(express.static(path.join(__dirname, 'static')));
 app.use(require('morgan')('short'));
+app.use(express.static(path.join(__dirname, 'static')));
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/static/index.html');
 });
 
 io.on('connection', socket => {
-    socket.emit('news', { hello: 'world' });
-    socket.on('my other event', data => {
-        console.log(data);
+    socket.on('clientDraw', data => {
+        socket.broadcast.emit('serverDraw', data);
     });
 });
