@@ -1,4 +1,3 @@
-lib-cov
 *.seed
 *.log
 *.csv
@@ -12,10 +11,13 @@ logs
 results
 
 ._*
-.idea
 .DS_Store
-atlassian-ide-plugin.xml
 
 npm-debug.log
 node_modules
-build
+
+clientside/app/scripts/*
+clientside/app/styles/*
+clientside/app/images/*
+clientside/app/*.*
+!clientside/app/**/.gitkeep

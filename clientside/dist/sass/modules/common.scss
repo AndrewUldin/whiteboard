@@ -1,0 +1,82 @@
+// Common styles
+html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    font-size: 15px;
+    line-height: 1em;
+}
+
+h1, h2, h3, h4, h5 {
+    font-weight: 500;
+    text-transform: uppercase;
+    line-height: 1em;
+    margin-top: 0;
+    margin-bottom: 1.2em;
+}
+
+h1 {
+    font-size: 1.476rem;
+    font-weight: 700;
+}
+h2 {
+    font-size: 1.2rem;
+}
+h3 {
+    font-size: 1.067rem;
+}
+h4 {
+    font-size: 0.9333rem;
+}
+
+p {
+    font-size: 1rem;
+    line-height: 1.2em;
+    margin-top: 0;
+    margin-bottom: 1.5em;
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+a {
+    text-decoration: none;
+    color: $blue;
+    transition: all .3s;
+}
+
+a:hover {
+    color: $blue * .2;
+}
+
+input[type=text] {
+    border: 1px solid $darkgray;
+    font-size: 20px;
+    line-height: 20px;
+    padding: 10px 15px;
+    box-sizing: border-box;
+    height: 40px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.action-button {
+    border: 1px solid $red;
+    background-color: $red;
+    color: $white;
+    height: 40px;
+    padding: 10px 15px;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 20px;
+    line-height: 20px;
+    transition: all .3s;
+}
+
+.action-button:hover {
+    background-color: $red * 1.2;
+}

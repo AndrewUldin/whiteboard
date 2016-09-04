@@ -1,0 +1,45 @@
+// for development (you can recognize block)
+@mixin bg {
+    background: rgba(0,0,0,.3);
+}
+
+@mixin nl {
+    margin: 0;
+    padding: 0;
+    text-indent: 0;
+    list-style: none;
+    list-style-position: outside;
+}
+
+@mixin cf {
+    &:before,
+    &:after {
+        display: table;
+        content: "";
+    }
+
+    &:after {
+        clear: both;
+    }
+}
+
+@mixin clear {
+    display: table;
+    height: 0;
+    clear: both;
+}
+
+@mixin respond-to($media) {
+    @if $media == phone {
+        @media only screen and (max-width: $tablet - 1) { @content; }
+    }
+    @else if $media == tablet {
+        @media only screen and (max-width: $desktop - 1) { @content; }
+    }
+    @else if $media == desktop {
+        @media only screen and (max-width: $large - 1) { @content; }
+    }
+    @else if $media == large {
+        @media only screen and (min-width: $large) { @content; }
+    }
+}
