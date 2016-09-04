@@ -14,7 +14,7 @@ const io = require('socket.io')(server);
 const mongo = require('./lib/mongo');
 
 // start listening port
-const port = config.server.port;
+const port = process.env.PORT || config.server.port;
 server.listen(port, () => {
     log.info('Listening on port', port);
 });
