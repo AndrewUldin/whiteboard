@@ -15,9 +15,3 @@ results
 
 npm-debug.log
 node_modules
-
-clientside/app/scripts/*
-clientside/app/styles/*
-clientside/app/images/*
-clientside/app/*.*
-!clientside/app/**/.gitkeep

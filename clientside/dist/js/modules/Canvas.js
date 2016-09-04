@@ -6,7 +6,7 @@ export default React.createClass({
 
     componentWillMount: function() {
         var self = this; // for use in callbacks
-        this.socket = io.connect(window.location.host); // TODO: port by configs
+        this.socket = io.connect(window.location.origin); // TODO: port by configs
 
         // server draw event handler
         this.socket.on('serverDraw-'+this.props.room, data => {
