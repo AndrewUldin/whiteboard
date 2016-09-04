@@ -23,7 +23,7 @@ function buildScripts(watch, production) {
         process.env.NODE_ENV = 'production';
     }
 
-    let bundler = browserify('./clientside/dist/js/app.js', {
+    let bundler = browserify('./clientside/dist/js/index.js', {
         basedir: __dirname,
         debug: !production,
         cache: {}, // required for watchify
@@ -40,7 +40,7 @@ function buildScripts(watch, production) {
 
     const rebundle = () => {
         let stream = bundler.bundle().on('error', function(err) { console.log(err.message) });
-        stream = stream.pipe(source('app.js'));
+        stream = stream.pipe(source('index.js'));
         if (production) {
             stream = stream.pipe(buffer());
             stream = stream.pipe(uglify());

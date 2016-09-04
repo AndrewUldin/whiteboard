@@ -1,5 +1,5 @@
-// Mixins.
 
+// for development (you can recognize block)
 @mixin bg {
     background: rgba(0,0,0,.3);
 }
@@ -30,7 +30,6 @@
     clear: both;
 }
 
-// You can add your own mixins here:
 @mixin respond-to($media) {
     @if $media == phone {
         @media only screen and (max-width: $tablet - 1) { @content; }
