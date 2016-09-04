@@ -6,7 +6,7 @@ export default React.createClass({
 
     componentWillMount: function() {
         var self = this; // for use in callbacks
-        this.socket = io.connect('http://127.0.0.1:80/'); // TODO: port by configs
+        this.socket = io.connect('https://uldin-whiteboard.herokuapp.com:443/'); // TODO: port by configs
 
         // server draw event handler
         this.socket.on('serverDraw-'+this.props.room, data => {
