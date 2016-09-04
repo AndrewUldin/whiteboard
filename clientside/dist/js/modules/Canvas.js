@@ -5,23 +5,26 @@ import io from 'socket.io-client'
 export default React.createClass({
 
     componentWillMount: function() {
-        var self = this;
-        this.socket = io.connect('http://127.0.0.1:9999/');
+        var self = this; // for use in callbacks
+        this.socket = io.connect('http://127.0.0.1:9999/'); // TODO: port by configs
 
+        // server draw event handler
         this.socket.on('serverDraw-'+this.props.room, data => {
             self.draw(data.coords, data.type, data.color);
         });
 
+        // clear board event handler
         this.socket.on('clearBoard-'+this.props.room, data => {
             self._clearBoard();
         });
 
+        // choose the color
         this.color = localStorage.getItem('color') || this.getRandomColor();
     },
 
     componentDidMount: function() {
 
-        this.nowPressed = false;
+        this.nowPressed = false; // flag to detect drawing
         this.canvas = document.getElementsByTagName('canvas')[0];
         this.canvas.width = document.querySelector('.scene').clientWidth;
         this.canvas.height = document.querySelector('.scene').clientHeight;
@@ -36,7 +39,7 @@ export default React.createClass({
         this.canvas.addEventListener('mousemove', this.moveHandler);
 
         var self = this;
-        setTimeout(() => {
+        setTimeout(() => { // because at that moment you can loose history drawings from server
             self.socket.emit('history', {
                 room: self.props.room
             })
@@ -44,6 +47,10 @@ export default React.createClass({
 
     },
 
+    /**
+    * Handle clear board event from server
+    * @param {string} room
+    */
     clearBoard: function(room) {
         var self = this;
         this.socket.emit('clearBoard', {
@@ -52,10 +59,19 @@ export default React.createClass({
         this._clearBoard();
     },
 
+    /**
+    * Clearing board action
+    */
     _clearBoard: function() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     },
 
+    /**
+    * Draw in board
+    * @param {object} coords
+    * @param {string} type
+    * @param {string} color
+    */
     draw: function(coords, type, color) {
         this.ctx.strokeStyle = color;
         switch (type) {
@@ -73,6 +89,11 @@ export default React.createClass({
         }
     },
 
+    /**
+    * Action after mouse event will handled
+    * @param {object} coords
+    * @param {string} type
+    */
     drawHanlder: function(coords, type) {
         this.draw(coords, type, this.color);
         this.socket.emit('clientDraw', {
@@ -83,6 +104,10 @@ export default React.createClass({
         });
     },
 
+    /**
+    * Calculate real coords in canvas
+    * @param {object} event
+    */
     calcRelCoords: function(e) {
         return {
             x: e.clientX - e.currentTarget.offsetLeft,
@@ -90,11 +115,19 @@ export default React.createClass({
         };
     },
 
+    /**
+    * Mouse in event handler
+    * @param {object} event
+    */
     inHandler: function(e) {
         this.nowPressed = true;
         this.drawHanlder(this.calcRelCoords(e), 'start');
     },
 
+    /**
+    * Mouse out event handler
+    * @param {object} event
+    */
     outHandler: function(e) {
         if (this.nowPressed) {
             this.nowPressed = false;
@@ -102,12 +135,20 @@ export default React.createClass({
         }
     },
 
+    /**
+    * Mouse move event handler
+    * @param {object} event
+    */
     moveHandler: function(e) {
         if (this.nowPressed) {
             this.drawHanlder(this.calcRelCoords(e), 'move');
         }
     },
 
+    /**
+    * Generate random color
+    * @returns {string} random darkness color
+    */
     getRandomColor: function() {
         var letters = '0123456789ABCDEF'.split('');
         var color = '#';

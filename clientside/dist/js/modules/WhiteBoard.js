@@ -4,6 +4,9 @@ import AppStore from '../stores/AppStore';
 import AppActions from '../actions/AppActions';
 import Canvas from './canvas';
 
+/**
+* @returns {object} params stored in store
+*/
 function getAppState() {
     return {
         params: AppStore.getAll()
@@ -17,6 +20,7 @@ export default React.createClass({
     },
 
     componentDidMount: function() {
+        // if room is undefined
         if (!this.state.params.key)
             this.redirectHandle();
 
@@ -31,6 +35,7 @@ export default React.createClass({
         this.setState(getAppState());
     },
 
+    // get react-router for redirects
     contextTypes: {
         router: React.PropTypes.object
     },
@@ -49,12 +54,18 @@ export default React.createClass({
         )
     },
 
-    redirectHandle: function(e) {
+    /**
+    * Handle redirect to homepage
+    */
+    redirectHandle: function() {
         AppActions.destroy('key');
         this.context.router.push('/');
         return false;
     },
 
+    /**
+    * Handle clear button press
+    */
     clearHandler: function() {
         this.refs['canvas'].clearBoard();
     }

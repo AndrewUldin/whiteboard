@@ -56,10 +56,9 @@ var AppStore = assign({}, EventEmitter.prototype, {
         return _params;
     },
 
-    getOne: function(key) {
-        return _params[key] || false;
-    },
-
+    /**
+     * Emit changes
+     */
     emitChange: function() {
         this.emit(CHANGE_EVENT);
     },

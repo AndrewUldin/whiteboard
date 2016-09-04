@@ -3,6 +3,9 @@ import React from 'react'
 import AppStore from '../stores/AppStore';
 import AppActions from '../actions/AppActions';
 
+/**
+* @returns {object} params stored in store
+*/
 function getAppState() {
     return {
         params: AppStore.getAll()
@@ -27,6 +30,7 @@ export default React.createClass({
         this.setState(getAppState());
     },
 
+    // get react-router for redirects
     contextTypes: {
         router: React.PropTypes.object
     },
@@ -46,14 +50,27 @@ export default React.createClass({
         )
     },
 
+    /**
+    * Handle redirect to whiteboard page
+    */
     handleEnter() {
         this.context.router.push('/whiteboard');
     },
 
+    /**
+    * Handle text input value changes
+    * Update key (room) param in store
+    * @param {object} event
+    */
     handleChange: function(event) {
         AppActions.create('key', event.target.value);
     },
 
+    /**
+    * Handle text input keyup
+    * Update key (room) param in store and redirect to whiteboard
+    * @param {object} event
+    */
     handleKeyUp: function(event) {
         if (event.keyCode == 13) {
             AppActions.create('key', event.target.value);
