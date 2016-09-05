@@ -31,6 +31,11 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/clientside/app/index.html');
 });
 
+// send favicon.ico file
+app.get('/favicon.ico', (req, res) => {
+    res.sendFile(__dirname + '/clientside/app/images/favicon.ico');
+});
+
 /* Socket section */
 io.on('connection', client => {
 
