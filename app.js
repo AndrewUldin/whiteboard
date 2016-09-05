@@ -10,6 +10,7 @@ const express = require('express');
 const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
+const _ = require('lodash');
 
 const mongo = require('./lib/mongo');
 
@@ -46,19 +47,26 @@ io.on('connection', client => {
     * TODO: filter empty lines
     */
     client.on('history', data => {
-        mongo.read('log', { room: data.room }).then(datas => {
-            datas.map(data => {
+        mongo.read('log', { room: data.room }, { timestamp: 1 }).then(datas => {
+
+            _.sortBy(datas, ['eventId', 'order', 'timestamp']);
+            datas.map((data, index) => {
                 /*
                 *   data = {
                 *       room: [string]
-                *       type: [string:start|stop|draw]
+                *       eventId: [string]
+                *       type: [string:in|out|move]
                 *       color: [string:#+hex],
                 *       coords: { x: [number], y: [number] },
                 *   }
                 */
-                client.emit('serverDraw-' + data.room, data);
+                setTimeout(()=> {
+                    client.emit('serverDraw-' + data.room, data);
+                }, 5*index);
             });
-        });
+        }, error => {
+            log.error(error);
+        })
     });
 
     /**

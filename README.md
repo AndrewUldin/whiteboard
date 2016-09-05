@@ -9,12 +9,12 @@ This app is created for showing of my skills.
     npm run static
     npm run start
 
-# Build for production
+# Build & deploy to Heroku
     npm i
     npm run build
-    npm run start
+    git add . && git ci -m 'Release' && git push
 
-# Where look
+# Where to look
 http://127.0.0.1:9999
 
 # Development

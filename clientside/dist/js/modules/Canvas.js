@@ -108,12 +108,14 @@ export default React.createClass({
     * @param {object} coords
     */
     emit: function(type, eventId, coords) {
+        var order = { 'in': 1, 'move': 2, 'out': 3 };
         this.socket.emit('clientDraw', {
             type: type,
             eventId: eventId,
             coords: coords || {},
             room: this.props.room,
-            color: this.color
+            color: this.color,
+            order: order[type]
         });
     },
 
@@ -122,6 +124,7 @@ export default React.createClass({
     * @param {object} event
     */
     inHandler: function(event) {
+        this.pressed = true;
         this.mouseEventId = this.getRandomId();
         var coords = this.calcRelCoords(event);
         this.strokes[this.mouseEventId] = new Stroke(coords, this.color);
@@ -133,8 +136,11 @@ export default React.createClass({
     * @param {object} event
     */
     outHandler: function(event) {
-        this.emit('out', this.mouseEventId);
-        delete this.strokes[this.mouseEventId];
+        if (this.mouseEventId) {
+            this.pressed = false;
+            this.emit('out', this.mouseEventId);
+            delete this.strokes[this.mouseEventId];
+        }
     },
 
     /**
@@ -142,11 +148,13 @@ export default React.createClass({
     * @param {object} event
     */
     moveHandler: function(event) {
-        var stroke = this.strokes[this.mouseEventId];
-        if (stroke) {
-            var coords = this.calcRelCoords(event);
-            stroke.addPoint(coords);
-            this.emit('move', this.mouseEventId, coords);
+        if (this.pressed == true) {
+            var stroke = this.strokes[this.mouseEventId];
+            if (stroke) {
+                var coords = this.calcRelCoords(event);
+                stroke.addPoint(coords);
+                this.emit('move', this.mouseEventId, coords);
+            }
         }
     },
 
